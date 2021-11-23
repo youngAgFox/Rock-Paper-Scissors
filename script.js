@@ -1,6 +1,11 @@
 const ROCK = 0;
 const PAPER = 1;
 const SCISSORS = 2;
+const DISPLAY = document.querySelector("#display");
+const PLAYER_SCORE = document.querySelector("#player-wins");
+const CPU_SCORE = document.querySelector("#cpu-wins");
+let playerWins = 0;
+let cpuWins = 0;
 
 function computerChoice() {
     return Math.round(Math.random() * SCISSORS);
@@ -36,48 +41,27 @@ function stringToChoice(str) {
 function playRound(playerStr, cpuChoice = computerChoice()) {
     const playerChoice = stringToChoice(playerStr);
     const cpuStr = choiceToString(cpuChoice);
+    let gameStr;
     if (playerChoice == cpuChoice) {
         // draw
-        return "It's a draw! " + playerStr + " does nothing to " + cpuStr;
+        DISPLAY.innerText = "It's a draw! " + playerStr + " does nothing to " + cpuStr;
     } else if (nextNum(playerChoice) == cpuChoice) {
         // player lost
-        return "You Lose! " + cpuStr + " beats " + playerStr;
+        cpuWins++;
+        DISPLAY.innerText = "You Lose! " + cpuStr + " beats " + playerStr;
+        CPU_SCORE.innerText = cpuWins;
     } else {
         // player wins
-        return "You Win! " + playerStr + " beats " + cpuStr;
+        playerWins++;
+        DISPLAY.innerText = "You Win! " + playerStr + " beats " + cpuStr;
+        PLAYER_SCORE.innerText = playerWins;
+    }
+    if (playerWins >= 5 || cpuWins >= 5) {
+        const winner = playerWins > cpuWins ? "You win!" : "The Cpu wins!";
+        DISPLAY.innerText = winner;
     }
 }
 
 function nextNum(choice) {
     return (choice + 1) % (SCISSORS + 1);
 }
-
-function game() {
-    let playerWins = 0;
-    let cpuWins = 0;
-    for(let i = 0; i < 5; i++) {
-        let choiceStr = prompt("Enter rock, paper, or scissors");
-        if(choiceStr == "" || choiceStr == undefined) {
-            console.log("Game terminated early");
-            break;
-        }
-        let gameStr = playRound(choiceStr);
-        console.log(gameStr);
-        if(gameStr.includes("Win")) {
-            playerWins++;
-        } else if (gameStr.includes("Lose")) {
-            cpuWins++;
-        }
-    }
-
-    console.log("Player Wins: " + playerWins + "\tCpu Wins: " + cpuWins);
-    if (playerWins > cpuWins) {
-        console.log("You win the series!");
-    } else if (cpuWins > playerWins) {
-        console.log("You lose the series!");
-    } else {
-        console.log("The series is a draw!");
-    }
-}
-
-game();

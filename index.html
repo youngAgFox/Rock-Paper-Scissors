@@ -3,9 +3,20 @@
     <head>
         <meta charset="utf-8"; lang="en"/>
         <title>Rock Paper Scissors</title>
-        <script src="script.js" async></script>
+        <script src="script.js" defer></script>
     </head>
     <body>
-        <p>Open the console with F12 to play!</p>
+        <button onclick="playRound('Rock')">Rock</button>
+        <button onclick="playRound('Paper')">Paper</button>
+        <button onclick="playRound('Scissors')">Scissors</button>
+        <div>
+            Player Wins: 
+            <span id="player-wins">0</span>
+            <div></div>
+            Cpu Wins:
+            <span id="cpu-wins">0</span>
+        </div>
+        <div id="display">
+        </div>
     </body>
 </html>
